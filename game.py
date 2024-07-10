@@ -5,9 +5,10 @@ class Game:
     def __init__(self):
         self.question = ""
 
-    def guess(self, guess_number):
+    def guess(self, guess_number) -> GameResult:
         self.assert_illegal_value(guess_number)
-        return GameResult(True, 3, 0)
+        if guess_number == self.question:
+            return GameResult(True, 3, 0)
 
     def assert_illegal_value(self, guess_number):
         if guess_number is None:
