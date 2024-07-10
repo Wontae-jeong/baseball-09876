@@ -7,18 +7,27 @@ class Game:
 
     def guess(self, guess_number) -> GameResult:
         self.assert_illegal_value(guess_number)
-        if guess_number == self.question:
-            return GameResult(True, 3, 0)
+        if self.is_solved(guess_number):
+            return self.get_success_game_result()
 
         else:
-            strikes = 0
-            balls = 0
-            for i in range(len(guess_number)):
-                if self.question.find(guess_number[i]) == i:
-                    strikes += 1
-                elif self.question.find(guess_number[i]) > -1:
-                    balls += 1
-            return GameResult(False, strikes, balls)
+            return self.get_unsolved_game_result(guess_number)
+
+    def get_unsolved_game_result(self, guess_number):
+        strikes = 0
+        balls = 0
+        for i in range(len(guess_number)):
+            if self.question.find(guess_number[i]) == i:
+                strikes += 1
+            elif self.question.find(guess_number[i]) > -1:
+                balls += 1
+        return GameResult(False, strikes, balls)
+
+    def get_success_game_result(self):
+        return GameResult(True, 3, 0)
+
+    def is_solved(self, guess_number):
+        return guess_number == self.question
 
     def assert_illegal_value(self, guess_number):
         if guess_number is None:
